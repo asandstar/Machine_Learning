@@ -1,0 +1,725 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{geometry}
+\geometry{a4paper,scale=0.76}
+\usepackage[dvipsnames]{xcolor}
+% 在导言区进行样式设置
+\lstset{
+    language=Python, % 设置语言
+ basicstyle=\ttfamily, % 设置字体族
+ breaklines=true, % 自动换行
+ keywordstyle=\bfseries\color{NavyBlue}, % 设置关键字为粗体，颜色为 NavyBlue
+ morekeywords={}, % 设置更多的关键字，用逗号分隔
+ emph={self}, % 指定强调词，如果有多个，用逗号隔开
+    emphstyle=\bfseries\color{Rhodamine}, % 强调词样式设置
+    commentstyle=\itshape\color{black!50!white}, % 设置注释样式，斜体，浅灰色
+    stringstyle=\bfseries\color{PineGreen!90!black}, % 设置字符串样式
+    columns=flexible,
+    numbers=left, % 显示行号在左边
+    numbersep=2em, % 设置行号的具体位置
+    numberstyle=\footnotesize, % 缩小行号
+    frame=single, % 边框
+    framesep=1em % 设置代码与边框的距离
+}
+\CTEXsetup[format={\large\bfseries}]{section}
+%由小到大分别是： 
+%\tiny \scriptsize \footnotesize \small \normalsize 
+%\large \Large \LARGE \huge \Huge
+\usepackage{xeCJK} % CJK语言环境，使用XeLaTex进行编译
+\usepackage{authblk} % 对应中文部分的作者机构特殊语法
+\author{asandstar@github}
+\title{HW2}
+\begin{document}
+\maketitle
+\section{现有下表所示训练数据，给定感知机模型
+$z = sgn(w_{1}x + w_{2} y + b)$\\
+参数取值为$w_{1}=1,w_{2}=1,b=-1$\\
+步长$\eta =0.5$，试学习感知机权重，给出过程}
+\begin{table}[!h]
+    \centering
+    \setlength{\tabcolsep}{10mm}
+    \begin{tabular}{|l|l|l|}
+        \hline
+        x     & y     & z  \\ \hline
+        -0.89 & -1.62 & -1 \\ \hline
+        -0.30 & 0.96  & +1 \\ \hline
+        1.49  & 0.25  & +1 \\ \hline
+        0.06  & -0.68 & -1 \\ \hline
+        -1.13 & 0.14  & -1 \\ \hline
+        0.78  & 0.96  & +1 \\ \hline
+    \end{tabular}
+\end{table}
+%表格生成网站https://www.tablesgenerator.com/latex_tables 
+设$\textbf{\emph{w}}=(w_{1},w_{2},b),\mathbf{\textbf {\emph{X}}}^\top=(x,y,1)$
+,模型$z = sgn(\textbf{\emph{w}}·\textbf {\emph{X}})$
+
+其中已知$w_{1}=1,w_{2}=1,b=-1$,所以$z = sgn(x +  y -1)$
+
+选择一个数据点$(x_{i},y_{i},z_{i})$，
+如果分类错误则更新参数
+$\textbf{\emph{w}}←\textbf{\emph{w}}+\eta \textbf{\emph{X}}_i z_{i}$,
+%$b←b+\eta z_{i}$
+
+(1)对$\mathbf{\textbf {\emph{X}}_1}^\top=(-0.89,-1.62,-1),
+    \textbf{\emph{w}}=(1,1,-1)$,
+
+代入得$z=sgn(-0.89+(-1.62)-1)=-1$,分类正确
+
+(2)对$\mathbf{\textbf {\emph{X}}_2}^\top=(-0.30,0.96,+1),
+    \textbf{\emph{w}}=(1,1,-1)$,
+
+代入得$z=sgn(-0.30+0.96-1)=-1 \neq +1$,分类错误
+
+更新参数$\textbf{\emph{w}}=(1,1,-1)+0.5× (-0.30,0.96,1)×(+1)
+    =(0.85,1.48,-0.5)$
+
+(3)对$\mathbf{\textbf {\emph{X}}_1}^\top=(-0.89,-1.62,-1),
+    \textbf{\emph{w}}=(0.85,1.48,-0.5)$,
+
+代入得$z=sgn(0.85×(-0.89)+1.48×(-1.62)-0.5)=-1$,分类正确
+
+(4)对$\mathbf{\textbf {\emph{X}}_2}^\top=(-0.30,0.96,+1),
+    \textbf{\emph{w}}=(0.85,1.48,-0.5)$,
+
+代入得$z=sgn(0.85×(-0.30)+1.48×0.96-0.5)=+1$,分类正确
+
+(5)对$\mathbf{\textbf {\emph{X}}_3}^\top=(1.49,0.25,+1),
+    \textbf{\emph{w}}=(0.85,1.48,-0.5)$,
+
+代入得$z=sgn(0.85×1.49+1.48×0.25-0.5)=+1$,分类正确
+
+(6)对$\mathbf{\textbf {\emph{X}}_4}^\top=(0.06,-0.68,-1),
+    \textbf{\emph{w}}=(0.85,1.48,-0.5)$,
+
+代入得$z=sgn(0.85×0.06+1.48×(-0.68)-0.5)=-1$,分类正确
+
+(7)对$\mathbf{\textbf {\emph{X}}_5}^\top=(-1.13,0.14,-1),
+    \textbf{\emph{w}}=(0.85,1.48,-0.5)$,
+
+代入得$z=sgn(0.85×(-1.13)+1.48×0.14-0.5)=-1$,分类正确
+
+(8)对$\mathbf{\textbf {\emph{X}}_6}^\top=(0.78,0.96,+1),
+    \textbf{\emph{w}}=(0.85,1.48,-0.5)$,
+
+代入得$z=sgn(0.85×0.78+1.48×0.96-0.5)=+1$,分类正确
+
+综上，感知机权重为$\textbf{\emph{w}}=(w_{1},w_{2},b)=(0.85,1.48,-0.5)$
+
+\pagestyle{plain}
+\section{现有以下数据\\
+  $$
+      x=
+      \begin{bmatrix}
+          1    & 2    & 0 \\
+          3    & 1    & 0 \\
+          2.5  & 2    & 0 \\
+          -2   & -2   & 1 \\
+          -2.7 & -1   & 1 \\
+          -3   & -2.2 & 1
+      \end{bmatrix}
+  $$
+  其中每行为一个样本,前2列为属性,第3列表示类
+  别,试应用LDA算法计算投影后的数据点}
+LDA的思想：给定训练样例集，设法将样例投影到一条直线上,
+使得同类样例的投影点尽可能接近、异类样例的投影点尽可能远离；
+在对新样本进行分类时，将其投影到同样的这条直线上，
+再根据投影点的位置来确定新样本的类别。
+\\
+\\
+设$\mu _i $为第i类的均值向量,例如$\mu _0=\mathbf{(x_0,y_0)}^\top $为类别0的样本中心点
+
+$\mathbf{\textbf{\emph{w}}}^\top =(w_0,w_1)$
+
+%$\mathbf{\textbf {\emph{w}}}  $为所投影到的直线,
+%其中$\textbf {\emph{w}}=w_0/w_1$
+%,$\textbf{\emph{x}} =\mathbf{(\emph{x',y'})}^\top$
+%,$x'$为题干中$x$第一列，$y'$为题干中$x$第二列,故$y=w_0 x'+w_1 y'=0$
+
+%投影后数据点求解方法：
+
+%已知LDA直线为$y=\mathbf{\textbf {\emph{w}}^\top \textbf{\emph{x}}}$
+
+%$x$是样本向量（列向量），
+%如果投影到一条直线上$w$就是一个特征向量（列向量形式）
+%或者多个特征向量构成的矩阵。
+
+%$y$ 为投影后的样本点（列向量）
+
+
+$\mathbf{\textbf {\emph{w}}}^\top \mu _0
+    ,\mathbf{\textbf {\emph{w}}}^\top \mu _1$为两类样本的中心在直线上的投影
+
+$\mathbf{\textbf {\emph{w}}}^\top \Sigma _0 \textbf{\emph{w}}
+    ,\mathbf{\textbf {\emph{w}}}^\top \Sigma _1 \textbf{\emph{w}}$为投影所有的点到直线后，
+两类样本的协方差
+
+(1)使同类样例的投影点尽可能接近, 可以让同类样例投影点的协方差尽可能小,
+即$\mathbf{\textbf {\emph{w}}}^\top \Sigma _0 \textbf{\emph{w}}
+    +\mathbf{\textbf {\emph{w}}}^\top \Sigma _1 \textbf{\emph{w}} $
+尽可能小
+
+(2)使异类样例的投影点尽可能远离, 可以让类中心之间的距离尽可能大,
+即$|| \mathbf{\textbf {\emph{w}}}^\top \mu _0-\mathbf{\textbf {\emph{w}}}^\top \mu _1||_2^2$
+
+所以最大化的目标为$\displaystyle{J=\frac{|| \mathbf{\textbf {\emph{w}}}^\top \mu _0-\mathbf{\textbf {\emph{w}}}^\top \mu _1||_2^2}
+        {\mathbf{\textbf {\emph{w}}}^\top \Sigma _0 \textbf{\emph{w}}
+            +\mathbf{\textbf {\emph{w}}}^\top \Sigma _1 \textbf{\emph{w}} }
+        =\frac{\mathbf{\textbf {\emph{w}}}^\top (\mu_0-\mu_1 )\mathbf{(\mu_0-\mu_1 )}^\top \textbf{\emph{w}}}
+        {\mathbf{\textbf {\emph{w}}}^\top (\Sigma _0+\Sigma _1 )\textbf{\emph{w}} }
+    }$
+\\
+\\
+定义类内散度矩阵$\textbf{S}_w=\Sigma _0+\Sigma _1$
+
+$
+    =\sum\limits_{x\in X_{0}} (\textbf{\emph{x}} \mathbf {-\mu_0 )(\textbf{\emph{x}} -\mu_0)}^\top+
+    \sum\limits_{x\in X_{1}}(\textbf{\emph{x}}  \mathbf {-\mu_1 )(\textbf{\emph{x}} -\mu_1)}^\top
+$
+\\
+\\
+定义类间散度矩阵$ \textbf{S}_b=\mathbf{(\mu_0-\mu_1 )(\mu_0-\mu_1 )}^\top$
+
+则最大化的目标可化为$S_w$和$S_b$的广义瑞利商
+$\displaystyle{J=\frac{\mathbf{\textbf {\emph{w}}}^\top
+            \textbf{S}_w \textbf{\emph{w}}}
+        {\mathbf{\textbf {\emph{w}}}^\top
+            \textbf{S}_b \textbf{\emph{w}}}}$
+
+注意到上式的分子和分母都是关于w的二次项,
+因此上式的解与w的长度无关,只与其方向有关,所以令$\mathbf{\textbf {\emph{w}}}^\top
+    \textbf{S}_w \textbf{\emph{w}}=1$
+
+故最大化的目标等价于
+
+\begin{center}
+    $\mathop{min}\limits_{w} -\mathbf{\textbf {\emph{w}}}^\top
+        \textbf{S}_b \textbf{\emph{w}}$
+
+    $s.t. \mathbf{\textbf {\emph{w}}}^\top
+        \textbf{S}_w \textbf{\emph{w}}=1$
+\end{center}
+
+利用拉格朗日乘子法得($\lambda$为拉格朗日乘子)
+
+\begin{center}
+    $L(w,\lambda )=-\mathbf{\emph{w}}^\top S_b w
+        +\lambda (\mathbf{\emph{w}}^\top S_w w -1)$
+\end{center}
+
+对上式求导并令其为0得
+
+\begin{center}
+    $\displaystyle{\frac{\partial L}{\partial w}=-2S_bw+2\lambda S_w w=0}$
+\end{center}
+
+因为$\mathbf{\textbf {\emph{w}}}^\top \mu$为标量，
+所以$\textbf{S}_b w=\mathbf{(\mu_0-\mu_1 )(\mu_0-\mu_1 )}^\top w$中的
+$\mathbf{(\mu_0-\mu_1 )}^\top w$也为标量，
+即$\textbf{S}_b w$的方向仅与$\mathbf{(\mu_0-\mu_1 )}$有关
+
+不妨令$\textbf{S}_b w=\lambda \mathbf{(\mu_0-\mu_1 )}$
+,代入上述求导所得等式得
+
+\begin{center}
+    $ w=S_w^{-1}\mathbf{(\mu_0-\mu_1 )}$
+\end{center}
+
+对$S_w$进行奇异值分解$S_w=\mathbf{U}\Sigma \mathbf{V}^\top$,
+其中$\Sigma$为实对角矩阵，其对角线上的元素是$S_w$的奇异值
+
+再求逆得$S_w^{-1}=\mathbf{V}\Sigma ^{-1}\mathbf{U}^\top$，并求得$w$
+
+
+由题可知被投影的直线$l_1$斜率$\displaystyle{k=\frac{w_0}{w_1}}$
+
+所以与该直线垂直的直线$l_2$斜率$\displaystyle{k'=-\frac{w_1}{w_0}}$
+
+$l_2$代入数据点，再与$l_1$联立即可求得投影点
+\\
+\\
+具体公式为 $\displaystyle{x'=\frac{x+y·k'}{(k')^2 +1}},
+    y'=kx'$
+\\
+\\
+利用python求解的代码如下
+\\
+% 正文区
+% lstlisting环境
+\begin{lstlisting}
+    from statistics import mean
+    import numpy as np
+    import matplotlib.pyplot as plt
+    '''1.导入数据'''
+    xy = np.array([[1, 2], [3, 1], [2.5, 2], [-2, -2], [-2.7, -1], [-3, 1]])
+    xy0 = np.array(xy[:3])  #3×2维
+    xy_0 = np.array(xy[:3])
+    xy1 = np.array(xy[3:])  #3×2维
+    xy_1 = np.array(xy[3:])
+    #数据按题干x摆放，第一列是x,第二列是y
+    '''2.计算miu0,miu1'''
+    x0 = mean(xy0[:, 0])
+    y0 = mean(xy0[:, 1])
+    x1 = mean(xy1[:, 0])
+    y1 = mean(xy1[:, 1])
+    miu0 = [x0, y0]
+    miu1 = [x1, y1]
+    '''3.计算类内散度矩阵Sw'''
+    for i in range(3):
+        xy0[i][0] = xy0[i][0] - x0
+        xy0[i][1] = xy0[i][1] - y0
+        xy1[i][0] = xy1[i][0] - x1
+        xy1[i][1] = xy1[i][1] - y1
+        #xy0从x中类别为0的矩阵变为x-μ的矩阵
+    sig0 = sig1 = 0
+    for i in range(3):
+        sig0 = sig0 + np.outer(xy0[i], xy0[i].T)
+        sig1 = sig1 + np.outer(xy1[i], xy1[i].T)
+        #某类中每一个i的(x-miu)与(x-miu)^T先外积，再对i求和
+    sw = sig0 + sig1  #2×2维
+    '''4.Sb·w的方向'''
+    miu01 = np.array([x0 - x1, y0 - y1])  #miu0-miu1
+    '''5.得到w'''
+    swni = np.linalg.inv(sw)  #求逆
+    w = np.dot(swni, miu01)
+    '''6.投影点公式'''
+    k = w[0] / w[1]
+    kt = -w[1] / w[0]
+    xty = (xy[:, 0] + xy[:, 1] * k) / (k**2 + 1)
+    yty = k * xty
+    xyty = np.array([xty, yty])
+    xyty = xyty.T
+    print('投影后数据点：\n', xyty)
+    '''7.画图'''
+    #画出题干数据点、被投影的直线
+    plt.scatter(xy_0[:, 0], xy_0[:, 1], c='b', label='+', marker='+')
+    plt.scatter(xy_1[:, 0], xy_1[:, 1], c='r', label='-', marker='_')
+    plt.plot([-3.5, 3.5], [-3.5 * k, 3.5 * k], label='y')
+    #画出投影点与原数据点的连线
+    for i in range(6):
+        plt.plot([xy[i][0], xyty[i][0]], [xy[i][1], xyty[i][1]])
+    plt.xlabel('X1', fontproperties='SimHei', fontsize=15, color='black')
+    plt.ylabel('X2', fontproperties='SimHei', fontsize=15, color='black')
+    plt.xlim(-4, 4)
+    plt.ylim(-4, 4)
+    ax = plt.gca()
+    ax.set_aspect(1)
+    plt.legend()
+    plt.show()
+\end{lstlisting}
+
+求得结果为
+$w=[3.30924855,1.84393064]^\top $
+
+投影后数据点：
+
+[[ 1.08730441  1.95135353]
+
+    [ 1.13595088  2.03865794]
+
+    [ 1.44268362  2.58914223]
+
+    [-1.32422388 -2.37654599]
+
+    [-1.06487504 -1.91110019]
+
+    [-0.28556595 -0.51249688]]
+\\
+\\
+python作图如下
+
+\includegraphics[width = .9\textwidth]{Figure_1.png}
+\section{现用梯度下降求解优化问题：\\
+  \begin{center}
+      $x^{*}=arg \mathop{min}\limits_{x} f(x)$\\
+  \end{center}
+  即迭代公式为\\
+  \begin{center}
+      $\displaystyle{x_{i+1}=x_{i}-\eta \frac{ \partial f }{ \partial x }}$\\
+  \end{center}
+  若f是二阶多项式,试证明迭代收敛的条件是$\displaystyle{\eta < 2\left(\frac{ \partial ^{2}f }{ \partial x ^{2}}\right)^{-1}}$
+ }
+
+设$f$的表达式为$f(x)=ax^2+bx+c$,
+则$\displaystyle{\frac{ \partial f }{ \partial x }=2ax+b,
+        \frac{ \partial ^{2}f }{ \partial x ^{2}}=2a}$
+
+又$f(x)$有最小值，故$a>0$
+
+因为$||\frac{ \partial f }{ \partial x }-\frac{ \partial f }{ \partial y }||=
+    \big | \big|\, ||2ax+b || -||2ay+b ||\, \big |\big|$
+
+\qquad \qquad \qquad \quad \,$\leq  ||2a(x-y)||$
+
+\qquad \qquad \qquad \quad \,$\leq  2a||x-y||$
+
+即存在$L=2a$,使$||f'(x)-f'(y)||\leq L||x-y||$
+
+所以$f'$满足Lipschitz continuous条件，$f$符合Lipschitz continuous gradient
+
+由Descent Lemma，$f(x) \leq f(y)+\frac{\partial f}{\partial x}(x-y)+\frac{L}{2}||x-y||^2$
+
+在上式中把$x,y$换成$x_{i_1},x_i$得
+$f(x_{i+1}) \leq f(x_i)+\frac{\partial f}{\partial x}(x_{i+1}-x_i)+\frac{L}{2}||x_{i+1}-x_i||^2$
+
+又因为$\displaystyle{x_{i+1}-x_{i}=-\eta \frac{ \partial f }{ \partial x }}$,
+%假设$\eta =2/L$,则$\displaystyle{x_{i+1}-x_{i}=-\frac{2}{L}\frac{ \partial f }{ \partial x }}$
+
+代入上述Descent Lemma得到的不等式得
+
+\begin{center}
+    $f(x_{i+1}) \leq f(x_i)-\eta ||f'(x_i) ||^2+\frac{L}{2}||\eta f'(x_i)||^2$
+
+    $=f(x_i)-(\eta-\frac{L}{2}\eta^2)||f'(x_i) ||^2$
+\end{center}
+
+要使迭代收敛，需要满足$\eta-\frac{L}{2}\eta^2>0$,解得$\displaystyle{\eta <\frac{2}{L}}$
+
+而$\displaystyle{L=2a=\frac{ \partial ^{2}f }{ \partial x ^{2}}}$
+
+所以迭代的收敛条件为$\displaystyle{\eta < 2\left(\frac{ \partial ^{2}f }{ \partial x ^{2}}\right)^{-1}}$
+
+证毕
+\section{简答:使用OvR和MvM将多分类任务分解为二分类任务求解时,
+  试概述针对类别不平衡性处理的方法。}
+类别不平衡学习的基本策略是rescaling(再缩放)。
+
+以线性分类器为例，用$y=\mathbf{\textbf {\emph{w}}} ^\top \textbf {\emph{x}}+b$
+对$\mathbf{\textbf {\emph{w}}} ^\top$
+进行分类时，是用预测的y和某个阈值相比较，
+实际上y是$\textbf {\emph{x}}$属于某类（正例或反例）的可能性
+
+$\displaystyle{\frac{y}{1-y}}$指正例可能性和反例可能性的比值
+
+阈值=0.5表明分类器认为真实正、反例可能性相同相同
+
+分类器决策规则：$\displaystyle{\frac{y}{1-y}}>1$时，预测为正例
+\\
+训练集中正、反例数目不同时，令$m^+$为正例数，$m^-$为反例数,
+故观测几率可以表示为$\displaystyle{\frac{m^+}{m^-}}$\\
+\\
+假设训练集是真实样本总体的无偏采样，则观测几率代表真实几率\\
+一旦分类器的预测几率高于观测几率，判定为正例，
+即$\displaystyle{\frac{y}{1-y}>\frac{m^+}{m^-}}$时，预测为正例\\
+\\
+但$\displaystyle{\frac{y}{1-y}}>1$是分类器使用的决策依据，所以对预测值进行调整，令
+
+\begin{center}
+    $\displaystyle{\frac{y'}{1-y'}=\frac{y}{1-y}×\frac{m^+}{m^-}}$
+\end{center}
+
+实际情况是，因为 “训练集是真实样本总体的无偏采样”的假设往往不成立，
+不能用观测几率代表真实几率，现在主要有三类做法。
+
+（1）“欠采样”(undersampling)
+
+去除训练集里的反类样例中一些反例使得正、反例数目接近，再学习
+
+（2）“过采样" (oversampling)
+
+增加训练集里的正类样例中一些正例使得正、反例数目接近，再学习
+
+（3） “阈值移动”(threshold-moving)
+
+基于原始训练集进行学习,并在用训练好的分类器进行预测时
+，把式子$\displaystyle{\frac{y'}{1-y'}=\frac{y}{1-y}×\frac{m^+}{m^-}}$
+嵌入到其决策过程中
+
+\section{请写出求解支撑矢量机优化问题的SMO算法流程,
+其中在固定$\lambda _{i1}$和$\lambda _{i2}$以外的参数时，
+推导下面原优化问题的闭式解$\lambda _{i1}^{*}$ 和$\lambda _{i2}^{*}$\\
+\\
+$\displaystyle{\mathop{max}\limits_{\lambda_{i}\geq 0}\left\{\sum_{i}\lambda _{i}-
+    \frac{1}{2}
+    (\sum_{i}\sum_{j}\lambda_{i}\lambda_{j}
+    y_{i}y_{j}(\textbf{\emph{x}}_i·\textbf{\emph{x}}_j))\right\}}$\\
+\\
+$s.t.  \sum_{i} \lambda_{i} y_{i}=0$}
+%SMO的基本思路是先固定$\lambda _i$之外的所有参数，然后求$\lambda _i$上的极值
+因为存在约束$\sum_{i} \lambda_{i} y_{i}=0$，
+如果固定$\lambda _{i1},\lambda _{i2}$之外其他变量，
+则$\lambda _{i1},\lambda _{i2}$可由其他变量导出
+
+\begin{center}
+    $\lambda_{i1} y_1+\lambda_{i2} y_2
+        =-\sum_{i\neq 1,2}\lambda _i y_i=\varsigma$
+
+    $0 \leq \lambda_i \leq C,i=1,2$
+\end{center}
+
+故题干最优化子问题，省略不含$\lambda_{i1},\lambda_{i2}$的常数项后，可写成：
+
+\begin{center}
+
+    $\displaystyle{\mathop{min}\limits_{\lambda _{i1},\lambda _{i2}}
+            W(\lambda_{i1},\lambda_{i2})=
+            \frac{1}{2}(\textbf{\emph{x}}_1·\textbf{\emph{x}}_1)
+            \lambda_{i1}^2
+            +
+            \frac{1}{2}(\textbf{\emph{x}}_2·\textbf{\emph{x}}_2)
+            \lambda_{i2}^2
+            +
+            y_1 y_2 (\textbf{\emph{x}}_1·\textbf{\emph{x}}_2)
+            \lambda_{i1}\lambda_{i2}}$
+    \\
+    $\displaystyle{-
+            (\lambda_{i1}+\lambda_{i2})
+            +
+            y_1 \lambda_{i1} \sum_{i\neq 1,2}y_i\lambda_i
+            (\textbf{\emph{x}}_i·\textbf{\emph{x}}_1)
+            +
+            y_2 \lambda_{i2} \sum_{i\neq 1,2}y_i\lambda_i
+            (\textbf{\emph{x}}_i·\textbf{\emph{x}}_2)
+        }$
+
+\end{center}
+
+$s.t. $\quad $\lambda_{i1} y_1+\lambda_{i2} y_2=\varsigma $
+
+$0 \leq \lambda_i \leq C,i=1,2$
+\\
+求解上述两个变量的二次规划问题，先要分析约束条件，然后在该约束条件下求极小
+\\
+只有两个变量，约束可以用二维空间中的图形表示
+
+\includegraphics[width = .9\textwidth]{hw2plot.png}
+\\
+因为不等式约束$0 \leq \lambda_i \leq C,i=1,2$
+使$(\lambda_{i1},\lambda_{i2})$在$[0,C]×[0,C]$内
+\\
+且等式约束$\lambda_{i1} y_1+\lambda_{i2} y_2=\varsigma $
+使$(\lambda_{i1},\lambda_{i2})$在平行于$[0,C]×[0,C]$的对角线的直线上
+\\
+所以要求是目标函数在一条平行于对角线的线段上的最优值
+\\
+\\
+又因为$\lambda_{i1} y_1+\lambda_{i2} y_2=\varsigma $
+,其中$\varsigma$为常数,所以上述两个变量的最优化问题实质上是单变量的最优化问题，
+不妨设该问题是$\lambda_{i2}$的最优化问题
+\\
+\\
+设问题的初始可行解为$\lambda_{i1},\lambda_{i2}$,
+最优解$\lambda_{i1}^*,\lambda_{i2}^*$,
+设在沿着约束方向未考虑不等式$0 \leq \lambda_i \leq C,i=1,2$
+约束时$\lambda_{i2}$的最优解是$\lambda_{i2}^{*,unc}$
+\\
+由图可以看出，$L \leq \lambda_{i2}^* \leq H$,其中$L,H$是$\lambda_{i2}^*$所在的平行于对角线的线段端点的界
+
+(1)$y_1 \neq y_2$,则
+$L=max(0,\lambda_{i2}-\lambda_{i1})$,
+$H=min(C,C+\lambda_{i2}-\lambda_{i1})$
+
+(2)$y_1 \neq y_2$,则
+$L=max(0,\lambda_{i2}+\lambda_{i1}-C)$,
+$H=min(C,\lambda_{i2}+\lambda_{i1})$
+\\
+\\
+接着，先求沿约束方向未考虑不等式$0 \leq \lambda_i \leq C,i=1,2$约束
+时$\lambda_{i2}$的最优解$\lambda_{i2}^{*,unc}$
+\\
+再求考虑不等式$0 \leq \lambda_i \leq C,i=1,2$约束后的
+解$\lambda_{i2}^*$
+
+令$\displaystyle{g(x)=\sum_{i= 1}\lambda_iy_i(\textbf{\emph{x}}_i·\textbf{\emph{x}})+b}$
+
+$\displaystyle{E_i=g(x_i)-y_i=\left(
+        \sum_{i= 1}\lambda_iy_i(\textbf{\emph{x}}_i·\textbf{\emph{x}})+b
+        \right)-y_i,i=1,2}$
+
+$\displaystyle{v_i=\sum_{j\neq 1,2}y_i\lambda_i
+        (\textbf{\emph{x}}_i·\textbf{\emph{x}}_j)
+        =g(x_i)
+        -\sum_{j= 1}^2 \lambda_iy_i(\textbf{\emph{x}}_i·\textbf{\emph{x}}_j)-b,i=1,2}$
+\\
+\\
+目标函数可写成
+
+\begin{center}
+
+    $\displaystyle{
+            W(\lambda_{i1},\lambda_{i2})=
+            \frac{1}{2}(\textbf{\emph{x}}_1·\textbf{\emph{x}}_1)
+            \lambda_{i1}^2
+            +
+            \frac{1}{2}(\textbf{\emph{x}}_2·\textbf{\emph{x}}_2)
+            \lambda_{i2}^2
+            +
+            y_1 y_2 (\textbf{\emph{x}}_1·\textbf{\emph{x}}_2)
+            \lambda_{i1}\lambda_{i2}}$
+    \\
+    $\displaystyle{-
+            (\lambda_{i1}+\lambda_{i2})
+            +
+            y_1 \lambda_{i1} v_1
+            +
+            y_2 \lambda_{i2} v_2
+        }$
+
+\end{center}
+
+由$\lambda_{i1} y_1=\varsigma -\lambda_{i2} y_2,y_i^2=1$,
+故$\lambda _{i1}=(\varsigma-\lambda_{i2} y_2)y_1$
+\\
+代入$ W(\lambda_{i1},\lambda_{i2})$得
+
+\begin{center}
+
+    $\displaystyle{
+            W(\lambda_{i2})=
+            \frac{1}{2}(\textbf{\emph{x}}_1·\textbf{\emph{x}}_1)
+            (\varsigma-\lambda_{i2} y_2)^2
+            +
+            \frac{1}{2}(\textbf{\emph{x}}_2·\textbf{\emph{x}}_2)
+            \lambda_{i2}^2
+            +
+            y_2 (\textbf{\emph{x}}_1·\textbf{\emph{x}}_2)
+            (\varsigma-\lambda_{i2} y_2)\lambda_{i2}}$
+    \\
+    $\displaystyle{-
+            (\varsigma-\lambda_{i2} y_2)y_1
+            -
+            \lambda_{i2}
+            +
+            (\varsigma-\lambda_{i2} y_2) v_1
+            +
+            y_2 \lambda_{i2} v_2
+        }$
+
+\end{center}
+
+对$\lambda_{i2}$求导并令其等于零
+
+\begin{center}
+
+    $\displaystyle{
+            \frac{\partial W}{\partial \lambda_{i2}}=
+            (\textbf{\emph{x}}_1·\textbf{\emph{x}}_1)
+            \lambda_{i2}
+            +
+            (\textbf{\emph{x}}_2·\textbf{\emph{x}}_2)
+            \lambda_{i2}
+            -
+            2(\textbf{\emph{x}}_1·\textbf{\emph{x}}_2)
+            \lambda_{i2}}
+        -
+        (\textbf{\emph{x}}_1·\textbf{\emph{x}}_1)
+        \varsigma \lambda_{i2}
+    $
+    \\
+
+    $\displaystyle{
+            +
+            (\textbf{\emph{x}}_1·\textbf{\emph{x}}_2)
+            \varsigma \lambda_{i2}
+            +y_1y_2-1
+            -y_2  v_1
+            +y_2  v_2
+            =0
+        }$
+
+\end{center}
+$\displaystyle{
+        ((\textbf{\emph{x}}_1·\textbf{\emph{x}}_1)
+        +(\textbf{\emph{x}}_2·\textbf{\emph{x}}_2)
+        -2(\textbf{\emph{x}}_1·\textbf{\emph{x}}_2)
+        )\lambda_{i2}}$
+\\
+$\displaystyle{
+        =y_2(y_2-y_1+\varsigma
+        (\textbf{\emph{x}}_1·\textbf{\emph{x}}_1)
+        -\varsigma
+        (\textbf{\emph{x}}_1·\textbf{\emph{x}}_2)
+        +v_1-v_2)}$
+\\\quad
+\\\quad
+$\displaystyle{
+    =y_2 \Biggl[
+    y_2-y_1+\varsigma
+    (\textbf{\emph{x}}_1·\textbf{\emph{x}}_1)
+    -\varsigma
+    (\textbf{\emph{x}}_1·\textbf{\emph{x}}_2)
+    +\left(g(x_1)
+    -\sum_{j= 1}^2 \lambda_jy_j(\textbf{\emph{x}}_1·\textbf{\emph{x}}_j)-b\right)
+    }$
+\\
+$\displaystyle{
+        -\left(g(x_2)
+        -\sum_{j= 1}^2 \lambda_jy_j(\textbf{\emph{x}}_2·\textbf{\emph{x}}_j)-b\right)
+        \Biggr]}$
+\\
+\\
+代入$\varsigma =\lambda_{i1}y_1+\lambda_{i2}y_2$得
+$\displaystyle{
+        ((\textbf{\emph{x}}_1·\textbf{\emph{x}}_1)
+        +(\textbf{\emph{x}}_2·\textbf{\emph{x}}_2)
+        -2(\textbf{\emph{x}}_1·\textbf{\emph{x}}_2)
+        )\lambda_{i2}^{*,unc}}$
+
+$\displaystyle{
+        =y_2(((\textbf{\emph{x}}_1·\textbf{\emph{x}}_1)
+        +(\textbf{\emph{x}}_2·\textbf{\emph{x}}_2)
+        -2(\textbf{\emph{x}}_1·\textbf{\emph{x}}_2)
+        )\lambda_{i2}y_2+y_2-y_1+g(x_1)+g(x_2))
+    }$
+
+$\displaystyle{
+        =((\textbf{\emph{x}}_1·\textbf{\emph{x}}_1)
+        +(\textbf{\emph{x}}_2·\textbf{\emph{x}}_2)
+        -2(\textbf{\emph{x}}_1·\textbf{\emph{x}}_2)
+        )\lambda_{i2}+y_2(E_1-E_2)
+    }$
+\\
+\\
+令$\eta =((\textbf{\emph{x}}_1·\textbf{\emph{x}}_1)
+    +(\textbf{\emph{x}}_2·\textbf{\emph{x}}_2)
+    -2(\textbf{\emph{x}}_1·\textbf{\emph{x}}_2)
+    )$
+得到
+\begin{center}
+    $\displaystyle{\lambda_{i2}^{*,unc}=\lambda_{i2}
+            +\frac{y_2(E_1-E_2)}{\eta}}$
+\end{center}
+
+为满足不等式约束条件，将上式限制在$[L,H]$间，可得$\lambda_{i2}^*$表达式
+
+\begin{center}
+    $$ \lambda_{i2}^*=\left\{
+        \begin{array}{rcl}
+             & H                    ,\quad & {\lambda_{i2}^{*,unc}>H}             \\
+             & \lambda_{i2}^{*,unc} ,\quad & {L \leq \lambda_{i2}^{*,unc} \leq H} \\
+             & L                    ,\quad & {\lambda_{i2}^{*,unc}<L}
+        \end{array}
+        \right. $$
+
+    $\lambda_{i1}^*=\lambda_{i1}+y_1y_2(\lambda_{i2}-\lambda_{i2}^*)$
+\end{center}
+%\begin(center)
+%$\displaystyle{=y_2(
+%        ((\textbf{\emph{x}}_1·\textbf{\emph{x}}_1)
+%        +(\textbf{\emph{x}}_2·\textbf{\emph{x}}_2)
+%        -2(\textbf{\emph{x}}_1·\textbf{\emph{x}}_2)
+%       )\lambda_{i2}y_2+y_2-y_1+g(x_1)+g(x_2))}$
+%\end(center)
+
+%SMO不断执行下述步骤：
+
+%（1）选一对需要更新的变量$\lambda _i,\lambda _j$
+
+%（2）固定$\lambda _i,\lambda _j$以外的参数，
+%求解$\displaystyle{\mathop{max}\limits_{\lambda_{i}\geq 0}\left\{\sum_{i}\lambda _{i}-
+%    \frac{1}{2}
+%    (\sum_{i}\sum_{j}\lambda_{i}\lambda_{j}
+%    y_{i}y_{j}(\textbf{$x_{i}$}·\textbf{$x_{j}$}))\right\}}$获得更新后的$\lambda _i,\lambda_j$\\
+%\\
+%只要选$\lambda_i,\lambda_j$中一个不满足KKT条件，即
+%$$ \left\{
+%    \begin{array}{lr}
+
+%        \lambda _i \geq 0                                                          \\
+%        y_i f(x_i) \\
+%        $$\sum\limits_{i=1}\limits^6$$(y_{i}-w_{2}x_{i}^2-w_{1}x_{i}-w_{0})=0
+%    \end{array}
+%    \right. $$
+
+\end{document}
