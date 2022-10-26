@@ -1,0 +1,400 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{a4paper,scale=0.85}
+\usepackage{amsmath}
+\usepackage{xcolor}  	%高亮使用的颜色
+\definecolor{commentcolor}{RGB}{85,139,78}
+\definecolor{stringcolor}{RGB}{206,145,108}
+\definecolor{keywordcolor}{RGB}{34,34,250}
+\definecolor{backcolor}{RGB}{220,220,220}
+\usepackage{accsupp}
+\newcommand{\emptyaccsupp}[1]{\BeginAccSupp{ActualText={}}#1\EndAccSupp{}}
+\usepackage{listings}
+%\documentclass{article}
+\CTEXsetup[format={\large\bfseries}]{section}
+%由小到大分别是： 
+%\tiny \scriptsize \footnotesize \small \normalsize 
+%\large \Large \LARGE \huge \Huge
+\usepackage{xeCJK} % CJK语言环境，使用XeLaTex进行编译
+\usepackage{authblk} % 对应中文部分的作者机构特殊语法
+\author{asandstar@github}
+\title{HW1}
+\begin{document}
+\maketitle
+\section{简述机器学习的类别，监督学习过程中涉及哪些要素}
+ (1)机器学习可以分为监督学习、无监督学习、强化学习、半监督学习与主动学习。
+
+监督学习指从标注数据中学习预测模型的机器学习问题。
+
+无监督学习指从无标注数据中学习预测模型的机器学习问题。
+
+强化学习指智能系统在与环境的连续互动中学习最优行为策略的机器学习问题。
+
+半监督学习指利用标注数据和未标注数据学习预测模型的机器学习问题。
+
+主动学习指机器不断给出实例让教师进行标注，再利用标注数据学习预测模型的机器学习问题。
+
+(2)监督学习过程中涉及的要素为数据、模型、策略和算法。其中三要素为：模型、策略和算法。
+\pagestyle{plain}
+\section{现有以下数据点($x_{i}$,$y_{i}$)
+  ，试用二次函数拟合，在最大似然准则下估
+  计系数，并计算拟合残差\\
+  (0,-0.13),
+  (0.2,0.09),
+  (0.4,0.59),
+  (0.6,1.62),
+  (0.8,2.5),
+  (1,3.4)}
+
+已知$X=[0\ 0.2\ 0.4\ 0.6\ 0.8\ 1]$，
+
+$t=[-0.13\ 0.09\ 0.59\ 1.62\ 2.5\ 3.4]$
+
+%$E(w)=\frac{1}{2} $$\sum\limits_{i=1}\limits^6$$ (y(x_{i},w)-t_{i})^2$
+% =\frac{1}{2} \mathbf{(\textbf{\emph{y-t}})}^\top (\textbf{\emph{y-t}})
+% =\frac{1}{2} \mathbf{(\textbf{\emph{Xw-t}})}^\top (\textbf{\emph{Xw-t}})$
+
+$w*=arg \mathop{min}\limits_{w}$$\sum\limits_{i=1}\limits^6$$ (f(x_{i},w)-y_{i})^2$
+
+%令$\displaystyle{\frac{ \partial \emph {E} }{ \partial \textbf{\emph {w} }}=0}$
+
+%则$\displaystyle{\frac{ \partial \emph {E} }{ \partial \textbf{\emph {w}}}
+%    \\=\frac{1}{2} \frac{ \partial \mathbf{(\textbf{\emph{Xw-t}})}^\top (\textbf{\emph{Xw-t}}) }
+%    {\partial \textbf{\emph {w}} }
+%    \\=\textbf{\emph{X}}^\top(\textbf{\emph{Xw-t}})
+%    \\=0}$
+
+%所以$\textbf{\emph{X}}^\top \textbf{\emph{Xw}}=\textbf{\emph{X}}^\top \textbf{\emph{t}}$
+
+%$\textbf{\emph{w}}=\mathbf{(\textbf{\emph{X}}^\top \textbf{\emph{X}})}^{-1}\textbf{\emph{X}}^\top\textbf{\emph{t}}$
+
+
+$ $$\sum\limits_{i=1}\limits^6$$
+  \displaystyle{\frac{ \partial (f(x_{i},w)-y_{i})^2 }{ \partial \emph {w} }}
+  =2$$\sum\limits_{i=1}\limits^6$$(f(x_{i},w)-y_{i})
+  \displaystyle{\frac{ \partial f(x_{i},w) }{ \partial \emph {w} }=0}$
+
+由于$\displaystyle{\frac{ \partial f(x_{i},w) }{ \partial \emph {w} }=[x_{i}^2,x_{i},1]}$
+$$ \left\{
+  \begin{array}{lr}
+
+    $$\sum\limits_{i=1}\limits^6$$(y_{i}-w_{2}x_{i}^2-w_{1}x_{i}-w_{0})x_{i}^2=0 \\
+    $$\sum\limits_{i=1}\limits^6$$(y_{i}-w_{2}x_{i}^2-w_{1}x_{i}-w_{0})x_{i}=0   \\
+    $$\sum\limits_{i=1}\limits^6$$(y_{i}-w_{2}x_{i}^2-w_{1}x_{i}-w_{0})=0
+  \end{array}
+  \right. $$
+
+$$
+  \begin{bmatrix}
+    \sum\limits_{i=1}\limits^6 y_{i}x_{i}^2 \\
+    \sum\limits_{i=1}\limits^6 y_{i}x_{i}   \\
+    \sum\limits_{i=1}\limits^6 y_{i}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \sum\limits_{i=1}\limits^6 x_{i}^4 & \sum\limits_{i=1}\limits^6 x_{i}^3 & \sum\limits_{i=1}\limits^6 x_{i}^2 \\
+    \sum\limits_{i=1}\limits^6 x_{i}^3 & \sum\limits_{i=1}\limits^6 x_{i}^2 & \sum\limits_{i=1}\limits^6 x_{i}   \\
+    \sum\limits_{i=1}\limits^6 x_{i}^2 & \sum\limits_{i=1}\limits^6 x_{i}   & 6
+  \end{bmatrix}
+  ·
+  \begin{bmatrix}
+    \emph{$w_{2}$} \\
+    \emph{$w_{1}$} \\
+    \emph{$w_{0}$}
+  \end{bmatrix}
+$$
+\\
+\\
+\lstset{						%高亮代码设置
+  language=python, 					%Python语法高亮
+  linewidth=0.9\linewidth,      		%列表list宽度
+  %basicstyle=\ttfamily,				%tt无法显示空格
+  commentstyle=\color{commentcolor},	%注释颜色
+  keywordstyle=\color{keywordcolor},	%关键词颜色
+  stringstyle=\color{stringcolor},	%字符串颜色
+  %showspaces=true,					%显示空格
+  numbers=left,						%行数显示在左侧
+  numberstyle=\tiny\emptyaccsupp,		%行数数字格式
+  numbersep=5pt,						%数字间隔
+  frame=single,						%加框
+  framerule=0pt,						%不划线
+  escapeinside=@@,					%逃逸标志
+  emptylines=1,						%
+  xleftmargin=3em,					%list左边距
+  backgroundcolor=\color{backcolor},	%列表背景色
+  tabsize=4,							%制表符长度为4个字符
+  gobble=4							%忽略每行代码前4个字符
+}
+
+\begin{lstlisting}
+    import numpy as np
+    from numpy import *
+    res1 = res2 = 0
+    m1 = m2 = m3 = 0
+    count1 = count2 = count3 =0
+    count4 = count5 = 0
+    x = [0, 0.2, 0.4, 0.6, 0.8, 1]
+    y = [-0.13, 0.09, 0.59, 1.62, 2.5, 3.4]
+    for i in range(6):
+        res1 = y[i] * x[i] * x[i]
+        res2 = y[i] * x[i]
+        m1 = x[i] * x[i] * x[i] * x[i]
+        m2 = x[i] * x[i] * x[i]
+        m3 = x[i] * x[i]
+        count1 = count1 + res1
+        count2 = count2 + m1
+        count3 = count3 + m2
+        count4 = count4 + res2
+        count5 = count5 + m3
+    res3 = sum(y)
+    m4 = sum(x)
+    m5 = 6
+    yx = np.array([[count1], [count4], [res3]])
+    xx = np.array([[count2, count3, count5], 
+                 [count3, count5, m4], 
+                 [count5, m4, m5]])
+    xx_inv = np.linalg.inv(xx)
+    w2 = w1 = w0 = 0
+    w = [w2, w1, w0]
+    w = np.dot(xx_inv, yx)
+    print(w)
+    y_see = np.array(y)
+    s = 0
+    y_p = {}
+    for i in range(6):
+        y_p[i] = w[0]*x[i]*x[i]+w[1]*x[i]+w[2]
+        s = s+y_see[i]-y_p[i]
+    print(s)
+\end{lstlisting}
+
+解得$w_{2}=2.19642857,\ w_{1}=1.505,\ w_{0}=-0.21285714$
+
+$y(x,\textbf{\emph{w}})=-0.21285714+1.505x+2.19642857x^2$
+
+拟合残差$\varepsilon =\sum\limits_{i=1}\limits^6 (t-y(x_{i},\textbf{\emph{w}}))$
+
+计算得$\varepsilon=3.06421555×10^{-14}$
+
+\section{题2中设$y_{i}$的观测误差服从高斯分布N(0,0.1)，二次函数的各系数均
+  服从先验分布N(0,0.3)，试在最大后验准则下重新估计各系数}
+$y_{i}=f(w,x)+\delta$
+
+$\delta  \sim N(0,\sigma _{1}),\ \sigma _{1}=0.1$
+
+$w \sim N(0,\sigma _{2}),\ \sigma _{2}=0.3$
+
+后验概率$\displaystyle{P(w)=exp(-\frac{w^2}{2\sigma _{2}^2})\prod_{i=1}^6 exp(-\frac{(y_{i}-f(w,x_{i}))^2}{2\sigma _{1}^2})}$
+
+两边取对数后对$\emph{$w_{j}$}$求导得
+$\displaystyle{\frac{\text{d}ln\ P}{\text{d}\emph{$w_{j}$}}
+  =\frac{\text{d}[(-\frac{\pmb{\emph{w}}^2}{2\sigma _{2}^2})+
+  \sum_{i=1}^6 (-\frac{(y_{i}-f(\pmb{\emph{w}},x_{i}))^2}{2\sigma _{1}^2})]}
+  {\text{d}\emph{$w_{j}$}}}$
+
+$\displaystyle{
+  =\frac{\text{d}[(-\frac{\pmb{\emph{w}}^2}{2\sigma _{2}^2})+
+  \sum_{i=1}^6 (-\frac{(y_{i}-w_{2}x_{i}^2-w_{1}x_{i}-w_{0})^2}{2\sigma _{1}^2})]}
+  {\text{d}\emph{$w_{j}$}}
+  }$
+
+令上式$=0$解得
+
+$\sum_{i=1}^6 x_{i}^2(y_{i}-w_{2}x_{i}^2-w_{1}x_{i}-w_{0})-\frac{\sigma_{1}^2}
+  {\sigma_{2}^2}w_{2}=0$
+
+$\sum_{i=1}^6 x_{i}(y_{i}-w_{2}x_{i}^2-w_{1}x_{i}-w_{0})-\frac{\sigma_{1}^2}
+  {\sigma_{2}^2}w_{1}=0$,
+
+$\sum_{i=1}^6(y_{i}-w_{2}x_{i}^2-w_{1}x_{i}-w_{0})-\frac{\sigma_{1}^2}
+  {6\sigma_{2}^2}w_{0}=0$
+
+$$
+  \begin{bmatrix}
+    \sum\limits_{i=1}\limits^6 y_{i}x_{i}^2 \\
+    \sum\limits_{i=1}\limits^6 y_{i}x_{i}   \\
+    \sum\limits_{i=1}\limits^6 y_{i}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \sum\limits_{i=1}\limits^6 x_{i}^4 +\frac{\sigma_{1}^2}{\sigma_{2}^2} & \sum\limits_{i=1}\limits^6 x_{i}^3                                   & \sum\limits_{i=1}\limits^6 x_{i}^2   \\
+    \sum\limits_{i=1}\limits^6 x_{i}^3                                    & \sum\limits_{i=1}\limits^6 x_{i}^2+\frac{\sigma_{1}^2}{\sigma_{2}^2} & \sum\limits_{i=1}\limits^6 x_{i}     \\
+    \sum\limits_{i=1}\limits^6 x_{i}^2                                    & \sum\limits_{i=1}\limits^6 x_{i}                                     & 6+\frac{\sigma_{1}^2}{6\sigma_{2}^2}
+  \end{bmatrix}
+  ·
+  \begin{bmatrix}
+    \emph{$w_{2}$} \\
+    \emph{$w_{1}$} \\
+    \emph{$w_{0}$}
+  \end{bmatrix}
+$$
+
+上述代码需要修改的部分为24至26行
+\begin{lstlisting}
+    xx = np.array([[count2+1/9, count3, count5], 
+                   [count3, count5+1/9, m4], 
+                   [count5, m4, m5+1/(6*9)]])
+\end{lstlisting}
+
+带入数值得$w_{2}=1.82312499,\ w_{1}=1.6194856,\ w_{0}=-0.13281205$
+
+$y(x,\textbf{\emph{w}})=-0.13281205+1.6194856x+1.82312499x^2$
+
+拟合残差$\varepsilon =\sum\limits_{i=1}\limits^6 (t-y(x_{i},\textbf{\emph{w}}))$
+
+计算得$\varepsilon=-0.00245948$
+
+\section{试画出下式的计算图，并在该图上用链式法则计算梯度
+$\frac{ \partial f }{ \partial x }$ :
+$f(x)=e^{ax}+e^{bx^2+cx}+\sqrt{x^2+cosx}$}
+\includegraphics[width = .9\textwidth]{graph.png}
+\begin{table}[!h]
+  \renewcommand{\arraystretch}{1.2}
+  \label{table_example}
+  \centering
+  \begin{tabular}{c|c c c c}
+    \hline
+    $f(x) $                            & $e^{ax} $ & $e^{bx^2+cx}$        & $\sqrt{x^2+cosx}$                  \\
+    \hline
+    $\frac{\partial f(x)}{\partial x}$ & $ae^{ax}$ & $(2bx+c)e^{bx^2+cx}$ & $\frac{2x-sinx}{2\sqrt{x^2+cosx}}$ \\
+    \hline
+  \end{tabular}
+\end{table}
+
+$\frac{ \partial f }{ \partial x }=ae^{ax}+(2bx+c)e^{bx^2+cx}+\frac{2x-sinx}{2\sqrt{x^2+cosx}}$
+
+
+\section{试证明以下矩阵代数的等式
+  \\
+  \\
+  $\displaystyle{\frac{ \partial \mathbf{\emph {a}}^\top  \emph {x}  }{ \partial \emph {x} }=\mathbf{\emph {a}}^\top }$
+  \\
+  \\
+  $\displaystyle{\frac{ \partial \mathbf{\emph {a}}^\top  \emph {Xb}  }{ \partial \emph {X} }=\emph {a}\mathbf{\emph {b}}^\top }$
+  \\
+  \\
+  $\displaystyle{\frac{ \partial \mathbf{\emph{x}}^\top  \emph {Bx}  }{ \partial \emph {x} }=\mathbf{\emph{x}}^\top (\emph {B}+\mathbf{\emph{B}}^\top)}$
+  \\
+ }
+证明：
+\\
+\\
+(1)
+
+$\mathbf{\textbf {\emph{a}}}^\top=[\emph {$a_{1}$\ $a_{2}$\ $a_{3}$\ …\ $a_{n}$}],
+  \ x=\mathbf{[\emph {$x_{1}$\ $x_{2}$\ $x_{3}$\ …\ $x_{n}$}]}^\top$
+
+因为$\displaystyle{
+    \frac{ \partial \mathbf{\textbf {\emph{a}}}^\top  \textbf {\emph{x}}  }
+    { \partial \emph {$x_{i}$} } =
+    \frac{ \partial ( \sum\limits_{j=1}\limits^n  \emph {$a_{j}$}  \emph {$x_{j}$}  )}
+    { \partial \emph {$x_{i}$} }=
+    \textbf{\emph {$a_{i}$}}}$
+
+%其中
+%$\mathbf{\textbf{\emph {a}}}^\top $
+%在第i列
+
+
+所以$\displaystyle{\frac{ \partial \mathbf{\textbf {\emph {a}}}^\top  \textbf {\emph {x}}  }
+{ \partial \textbf{\emph {x}} }=
+      %\sum\limits_{k=0}\limits^n \mathbf{\pmb{\emph {$a_{k}$}}}^\top =
+      [\emph {$a_{1}$\ $a_{2}$\ $a_{3}$\ …\ $a_{n}$}]=
+    \mathbf{\textbf{\emph {a}}}^\top}$
+
+证毕
+\\
+\\
+(2)
+
+$\mathbf{\textbf {\emph{a}}}^\top=[\emph {$a_{1}$\ $a_{2}$\ $a_{3}$\ …\ $a_{m}$}],
+  \ \textbf {\emph{b}}=\mathbf{[\emph {$b_{1}$\ $b_{2}$\ $b_{3}$\ …\ $b_{n}$}]}^\top$
+
+因为$\displaystyle{
+    \frac{ \partial \mathbf{\textbf {\emph{a}}}^\top  \textbf {\emph{X}} \textbf {\emph{b}} }
+    { \partial \emph {$X_{ij}$} } =
+    \frac{ \partial (\sum\limits_{t=1}\limits^m \sum\limits_{k=1}\limits^n \emph {$a_{t}$}  \emph {$X_{tk}$} \emph {$b_{k}$} )}
+    { \partial \emph {$X_{ij}$} }= \emph {$a_{i}$} \emph {$b_{j}$} }$
+
+所以
+$$
+  \displaystyle{\frac{ \partial \mathbf{\textbf {\emph {a}}}^\top  \textbf {\emph{X}} \textbf {\emph{b}} }
+    { \partial \textbf{ \emph {X} }}=}
+  \begin{bmatrix}
+    a_{1}  \\
+    a_{2}  \\
+    \vdots \\
+    a_{m}
+  \end{bmatrix}
+  \begin{bmatrix}
+    b_{1} & b_{2} & \dots & b_{n}
+  \end{bmatrix}
+  =\textbf{\emph {a}}\mathbf{\textbf{\emph {b}}}^\top
+$$
+
+证毕
+\\
+\\
+(3)
+
+$B_{n×n}=(b_{ij})_{i=1,j=i}^{n,n},\ x=\mathbf{[\emph {$x_{1}$\ $x_{2}$\ $x_{3}$\ …\ $x_{n}$}]}^\top$
+
+因为
+$ \displaystyle{
+    \frac{ \partial \mathbf{\textbf {\emph{x}}}^\top  \textbf {\emph{B}} \textbf {\emph{x}} }
+    { \partial \emph {$x_{ij}$} } =
+    \frac{ \partial (\sum\limits_{t=1}\limits^n \sum\limits_{k=1}\limits^n \emph {$b_{tk}$}\emph {$x_{t}$} \emph {$x_{k}$} )}
+    { \partial \emph {$x_{t}$} } =
+    \sum\limits_{k=1}\limits^n \emph {$b_{tk}$} \emph {$x_{k}$}
+  }$
+
+所以
+$$
+  \displaystyle{\frac{ \partial \mathbf{\textbf{\emph{x}}}^\top \textbf{ \emph {Bx} } }{ \partial \textbf{\emph {x} }}
+    =}
+  \begin{bmatrix}
+    b_{11}x_{1}+ b_{12}x_{2}+ & \dots & +b_{1n}x_{n} \\
+    b_{21}x_{1}+ b_{22}x_{2}+ & \dots & +b_{2n}x_{n} \\
+    \vdots                                           \\
+    b_{n1}x_{1}+ b_{n2}x_{2}+ & \dots & +b_{nn}x_{n}
+  \end{bmatrix}
+  +
+  \begin{bmatrix}
+    b_{11}x_{1}+ b_{21}x_{2}+ & \dots & +b_{n1}x_{n} \\
+    b_{12}x_{1}+ b_{22}x_{2}+ & \dots & +b_{n2}x_{n} \\
+    \vdots                                           \\
+    b_{1n}x_{1}+ b_{2n}x_{2}+ & \dots & +b_{nn}x_{n}
+  \end{bmatrix}
+$$
+\\
+$$
+  =
+  \mathbf{\begin{bmatrix}
+      x_{1}  \\
+      x_{2}  \\
+      \vdots \\
+      x_{n}
+    \end{bmatrix}}^\top
+  \begin{bmatrix}
+    b_{11} & b_{12} & \dots  & b_{1n} \\
+    b_{21} & b_{22} & \dots  & b_{2n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    b_{n1} & b_{n2} & \dots  & b_{nn}
+  \end{bmatrix}
+  +
+  \mathbf{\begin{bmatrix}
+      x_{1}  \\
+      x_{2}  \\
+      \vdots \\
+      x_{n}
+    \end{bmatrix}}^\top
+  \begin{bmatrix}
+    b_{11} & b_{21} & \dots  & b_{n1} \\
+    b_{12} & b_{22} & \dots  & b_{n2} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    b_{1n} & b_{2n} & \dots  & b_{nn}
+  \end{bmatrix}
+  =\textbf{$\mathbf{\emph{x}}^\top (\emph {B}+\mathbf{\emph{B}}^\top)$}$$
+
+证毕
+\end{document}
